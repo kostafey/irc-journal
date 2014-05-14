@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+  <head lang="ru">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="/css/site.min.css"> -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/datepicker.css">    
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+    <script>
+	 $(function(){
+	   $('#dpYears').datepicker();
+     });
+    </script>
+  </head>
+  <body>
+<div class="center-block container"  id="register-form" >
+          <div style="margin-top:60px;"></div>
+            <div class="well bs-component">
+<form class="form-horizontal">
+  <fieldset >
+    <legend>Регистрация</legend>
+    <div class="form-group">
+      <label for="inputLogin" class="col-lg-2 control-label">Логин</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="inputLogin" placeholder="Логин">
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword" class="col-lg-2 control-label">Пароль</label>
+        <div class="col-lg-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Пароль">
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="inputFirstName" class="col-lg-2 control-label">Имя</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="inputFirstName" placeholder="Имя">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputLastName" class="col-lg-2 control-label">Фамилия</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="inputLastName" placeholder="Фамилия">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="textArea" class="col-lg-2 control-label">О себе</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="3" id="textArea"></textarea>
+        <span class="help-block">Можно рассказать немного о себе (по желанию).</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Пол</label>
+      <div class="col-lg-10">
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+            М
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+            Ж
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="dpYears" class="col-lg-2 control-label">Дата рождения</label>
+	    <div class="input-append date col-lg-3" id="dpYears" data-date="01.01.1970" 
+             data-date-format="dd.mm.yyyy" data-date-viewmode="years">
+          <table>
+            <tr>
+              <td><input class="form-control" type="text" value="01.01.1970" readonly></td>
+              <td>&nbsp;</td>
+              <td><span class="btn navbar-nav add-on glyphicon glyphicon-calendar"/></td>
+            </tr>
+          </table>	                
+	    </div>          
+    </div>
+
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button class="btn btn-default">Отмена</button>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+          </div>
+      </div>
+  </body>
+</html> 
