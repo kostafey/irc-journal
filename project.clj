@@ -5,6 +5,7 @@
                  [compojure "1.1.6"]
                  [org.clojure/clojurescript "0.0-2202"]
                  [enfocus "2.1.0-SNAPSHOT"]
+                 [jayq "2.5.1"]
                  [cljs-ajax "0.2.3"]]
   :plugins [[lein-ring "0.8.10"]]
   :ring {:handler irc-journal.handler/app}
@@ -15,6 +16,8 @@
     :builds [{
         :source-paths ["src/cljs"]
         :compiler {
+          :foreign-libs [{:file "resources/public/js/bootstrap-datepicker.js"
+                          :provides ["bootstrap.datepicker"]}]
           :output-to "resources/public/js/main.js"
           :optimizations :whitespace
           :pretty-print true}}]})

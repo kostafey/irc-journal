@@ -1,7 +1,12 @@
 (ns irc-jornal.core
   (:require [enfocus.core :as ef]
-            [ajax.core :refer [GET POST]])
-  (:require-macros [enfocus.macros :as em]))
+            [ajax.core :refer [GET POST]]
+            [jayq.core :as jq]
+            )
+  (:use [bootstrap.datepicker :only [datepicker]]
+        [jayq.core :only [$ css html]])
+  (:require-macros [enfocus.macros :as em])
+  )
 
 (em/defsnippet navbar-header "/html/navbar.html" ".navbar" [])
 (em/defsnippet register-form "/html/register-form.html" "#register-form" [])
@@ -12,6 +17,8 @@
                   (ef/append (register-form))
                   ;; (ef/append (blog-sidebar))
                   ))
+  (let [elem ($ "#dpYears")]
+    (.datepicker elem))
   ;; (try-load-articles)
   )
 
