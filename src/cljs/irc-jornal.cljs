@@ -7,24 +7,37 @@
         [jayq.core :only [$ css html]])
   (:require-macros [enfocus.macros :as em]))
 
-                           ;; (def content-state :none)
-
 (em/defsnippet navbar-header "/html/navbar.html" ".navbar" [{:keys [id]}]
   "#register-btn" (ef/set-attr
                    :onclick
-                   (str "irc_jornal.core.show_register()")))
+                   (str "irc_jornal.core.show_register()"))
+  "#home-btn" (ef/set-attr
+               :onclick
+               (str "irc_jornal.core.show_welcome()"))
+  "#home-j" (ef/set-attr
+             :onclick
+             (str "irc_jornal.core.show_welcome()")))
 (em/defsnippet register-form "/html/register-form.html" "#register-form" [])
 (em/defsnippet welcome "/html/welcome.html" "#welcome" [])
 
-(defn get-content-state []
-  (str ($ "#register-form"))
-  )
+(defn mark-active [active-item]
+  (doseq [item ["#home-li" "#register-li"]]
+    (ef/at item
+           (ef/remove-class "active")))
+  (ef/at active-item
+         (ef/add-class "active")))
 
 (defn ^:export show-register []
+  (mark-active "#register-li")
   (ef/at ".container"
          (ef/do-> (ef/content (register-form))))
   (let [elem ($ "#dpYears")]
     (.datepicker elem)))
+
+(defn ^:export show-welcome []
+  (mark-active "#home-li")
+  (ef/at ".container"
+         (ef/do-> (ef/content (welcome)))))
 
 (defn start []
   (ef/at "#header"
