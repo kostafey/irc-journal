@@ -5,20 +5,36 @@
             )
   (:use [bootstrap.datepicker :only [datepicker]]
         [jayq.core :only [$ css html]])
-  (:require-macros [enfocus.macros :as em])
+  (:require-macros [enfocus.macros :as em]))
+
+                           ;; (def content-state :none)
+
+(em/defsnippet navbar-header "/html/navbar.html" ".navbar" [{:keys [id]}]
+  "#register-btn" (ef/set-attr
+                   :onclick
+                   (str "irc_jornal.core.show_register()")))
+(em/defsnippet register-form "/html/register-form.html" "#register-form" [])
+(em/defsnippet welcome "/html/welcome.html" "#welcome" [])
+
+(defn get-content-state []
+  (str ($ "#register-form"))
   )
 
-(em/defsnippet navbar-header "/html/navbar.html" ".navbar" [])
-(em/defsnippet register-form "/html/register-form.html" "#register-form" [])
+(defn ^:export show-register []
+  (ef/at ".container"
+         (ef/do-> (ef/content (register-form))))
+  (let [elem ($ "#dpYears")]
+    (.datepicker elem)))
 
 (defn start []
-  (ef/at ".container"
+  (ef/at "#header"
          (ef/do-> (ef/content (navbar-header))
-                  (ef/append (register-form))
                   ;; (ef/append (blog-sidebar))
                   ))
-  (let [elem ($ "#dpYears")]
-    (.datepicker elem))
+  (ef/at ".container"
+         (ef/append (welcome)))
+  ;; (let [elem ($ "#dpYears")]
+  ;;   (.datepicker elem))
   ;; (try-load-articles)
   )
 
@@ -117,4 +133,3 @@
 ;;                   :body (ef/from "#article-body" (ef/read-form-input))}
 ;;          :handler article-saved
 ;;          :error-handler error-handler}))
-
