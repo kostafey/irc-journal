@@ -16,12 +16,16 @@
                (str "irc_jornal.core.show_welcome()"))
   "#home-j" (ef/set-attr
              :onclick
-             (str "irc_jornal.core.show_welcome()")))
+             (str "irc_jornal.core.show_welcome()"))
+  "#login-btn" (ef/set-attr
+                :onclick
+                (str "irc_jornal.core.show_login()")))
 (em/defsnippet register-form "/html/register-form.html" "#register-form" [])
 (em/defsnippet welcome "/html/welcome.html" "#welcome" [])
+(em/defsnippet login "/html/login.html" "#login" [])
 
 (defn mark-active [active-item]
-  (doseq [item ["#home-li" "#register-li"]]
+  (doseq [item ["#home-li" "#register-li" "#login-li"]]
     (ef/at item
            (ef/remove-class "active")))
   (ef/at active-item
@@ -38,6 +42,10 @@
   (mark-active "#home-li")
   (ef/at ".container"
          (ef/do-> (ef/content (welcome)))))
+
+(defn ^:export show-login []
+  (mark-active "#login-li")
+  (ef/at ".container" (ef/content (login))))
 
 (defn start []
   (ef/at "#header"
