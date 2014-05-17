@@ -7,7 +7,9 @@
         [jayq.core :only [$ css html]])
   (:require-macros [enfocus.macros :as em]))
 
-(em/defsnippet navbar-header "/html/navbar.html" ".navbar" [{:keys [id]}]
+(def app-context "/irc-journal")
+
+(em/defsnippet navbar-header (str app-context "/html/navbar.html") ".navbar" [{:keys [id]}]
   "#register-btn" (ef/set-attr
                    :onclick
                    (str "irc_jornal.core.show_register()"))
@@ -20,9 +22,9 @@
   "#login-btn" (ef/set-attr
                 :onclick
                 (str "irc_jornal.core.show_login()")))
-(em/defsnippet register-form "/html/register-form.html" "#register-form" [])
-(em/defsnippet welcome "/html/welcome.html" "#welcome" [])
-(em/defsnippet login "/html/login.html" "#login" [])
+(em/defsnippet register-form (str app-context "/html/register-form.html") "#register-form" [])
+(em/defsnippet welcome (str app-context "/html/welcome.html") "#welcome" [])
+(em/defsnippet login (str app-context "/html/login.html") "#login" [])
 
 (defn mark-active [active-item]
   (doseq [item ["#home-li" "#register-li" "#login-li"]]

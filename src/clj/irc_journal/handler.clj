@@ -1,12 +1,16 @@
 (ns irc-journal.handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [clojure.java.io :as io]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
-  (route/resources "/")
-  (route/not-found "Not Found"))
+  ;; (context "/irc-journal" request
+           (GET "/" [] (slurp (io/resource "public/html/index.html")))
+           (route/resources "/")
+           (route/files "/" {:root "public/"})
+           (route/not-found "Not Found"))
+;; )
 
 (def app
   (handler/site app-routes))

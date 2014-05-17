@@ -12,6 +12,7 @@
   :profiles {:dev [{:dependencies [[javax.servlet/servlet-api "2.5"]
                                    [ring-mock "0.1.5"]]}
                    {:plugins [[lein-cljsbuild "1.0.3"]]}]}
+  :source-paths ["src/clj"]
   :cljsbuild {
     :builds [{
         :source-paths ["src/cljs"]
