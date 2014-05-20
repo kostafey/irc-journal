@@ -3,11 +3,14 @@
         [korma.core]
         [clojure.set :only (rename-keys)]))
 
-(defdb irc-journal-db (mysql {:db "irc_journal_db"
+(defdb irc-journal-db (mysql {:db "irc_journal_db?characterEncoding=utf8"
                               :user "root"
                               :password "1111"
                               :host "localhost"
-                              :port "3306"}))
+                              :port "3306"
+                              ;; :subname (str "//" host ":" port "/" db)
+                              ;; :subname "//localhost:3306/ad_surfing_db?characterEncoding=utf8"
+                              }))
 
 (def user-table
   (str "CREATE TABLE users (                                   \n"
@@ -29,12 +32,51 @@
        "  UNIQUE KEY id_UNIQUE (id)                            \n"
        ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  \n"))
 
+(def journal-entry-table
+  (str "CREATE TABLE journal_entries (                        \n"
+       "  id int(11) NOT NULL AUTO_INCREMENT,                 \n"
+       "  user_id int(11) NOT NULL,                           \n"
+       "  distance int(11) DEFAULT NULL,                      \n"
+       "  time int(11) DEFAULT NULL,                          \n"
+       "  speed int(11) DEFAULT NULL,                         \n"
+       "  about longtext CHARACTER SET utf8,                  \n"
+       "  PRIMARY KEY (id),                                   \n"
+       "  UNIQUE KEY id_UNIQUE (id)                           \n"
+       ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 \n"))
+
+(defn str-to-int [str]
+  (Integer/parseInt str))
+
 (defn new-date [date-str]
   (.parse (java.text.SimpleDateFormat. "dd.MM.yyyy")
           date-str))
 
+(defn new-time [time-str]
+  "Time in seconds.
+e.g. (new-time \"1:10:12\")"
+  (loop [src-seq (map str-to-int (reverse (.split time-str ":")))
+         pos 0
+         result 0]
+    (if (seq src-seq)
+      (let [item (first src-seq)]
+        (recur (next src-seq)
+               (inc pos)
+               (+ result
+                  (* (get {0 1
+                           1 60
+                           2 3600
+                           3 (* 24 3600)} pos)
+                     item))))
+      result)))
+
+(defentity journal-entry
+  (table :journal_entries)
+  (prepare #(rename-keys % {:user-id :user_id}))
+  (transform #(rename-keys % {:user_id :user-id})))
+
 (defentity user
   (table :users)
+  (has-many journal-entry {:fk :user_id})
   (prepare #(rename-keys % {:is-admin           :is_admin
                             :is-active          :is_active
                             :first-name         :first_name
@@ -49,7 +91,6 @@
                               :register_date       :register-date
                               :last_activity_date  :last-activity-date
                               :born_date           :born-date})))
-
 
 (comment
   (def kostafey
@@ -67,7 +108,19 @@
      :sex 1
      :about "Have a nice day! ;)"})
 
+  (def first-journal-entity
+    {:user_id (-> (select user) first :id)
+     :distance 3
+     :time (new-time "15:30")
+     :about "Восстановительная пробежка"})
+
   (select user)
-  (exec-raw user-table)
-  (insert user (values kostafey))
+  (select journal-entry)
+
+  (first (select user
+                 (with journal-entry)))
+  ;(exec-raw user-table)
+  ;(exec-raw journal-entry-table)
+  ;(insert user (values kostafey))
+  ;(insert journal-entry (values first-journal-entity))
   )
