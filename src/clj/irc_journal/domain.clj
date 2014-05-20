@@ -19,7 +19,7 @@
        "  is_admin bit(1) DEFAULT NULL,                        \n"
        "  password varchar(45) NOT NULL,                       \n"
        "  is_active bit(1) DEFAULT NULL,                       \n"
-       "  e_mail varchar(45),                                  \n"
+       "  email varchar(45),                                   \n"
        "  first_name varchar(255) CHARACTER SET utf8 NOT NULL, \n"
        "  last_name varchar(45) NOT NULL,                      \n"
        "  register_date datetime DEFAULT NULL,                 \n"
@@ -92,13 +92,16 @@ e.g. (new-time \"1:10:12\")"
                               :last_activity_date  :last-activity-date
                               :born_date           :born-date})))
 
+(defn register [new-user]
+  (insert user (values new-user)))
+
 (comment
   (def kostafey
     {:login "Kostafey"
      :is-admin true
      :password "secret"
      :is-active true
-     :e_mail "kostafey@gmail.com"
+     :email "kostafey@gmail.com"
      :first-name "Konstantin"
      :last-name "Sedykh"
      :register-date (new-date "25.05.2014")

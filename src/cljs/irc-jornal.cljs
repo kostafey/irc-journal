@@ -22,7 +22,11 @@
   "#login-btn" (ef/set-attr
                 :onclick
                 (str "irc_jornal.core.show_login()")))
-(em/defsnippet register-form (str app-context "/html/register-form.html") "#register-form" [])
+
+(em/defsnippet register-form
+  (str app-context "/html/register-form.html") "#register-form" []
+  "#register-btn" (ef/set-attr :onclick (str "irc_jornal.core.try_register()")))
+
 (em/defsnippet welcome (str app-context "/html/welcome.html") "#welcome" [])
 (em/defsnippet login (str app-context "/html/login.html") "#login" [])
 
@@ -48,6 +52,24 @@
 (defn ^:export show-login []
   (mark-active "#login-li")
   (ef/at ".container" (ef/content (login))))
+
+;;(if (ef/from "#optionsRadios1" (ef/read-form-input)) 1 0)
+
+(defn ^:export try-register [id]
+  (POST "/irc-journal/register/"
+        {:params {:login      (ef/from "#inputLogin" (ef/read-form-input))
+                  :password   (ef/from "#inputPassword" (ef/read-form-input))
+                  :first-name (ef/from "#inputFirstName" (ef/read-form-input))
+                  :last-name  (ef/from "#inputLastName" (ef/read-form-input))
+                  :email      (ef/from "#inputEmail" (ef/read-form-input))
+                  :about      (ef/from "#textArea" (ef/read-form-input))
+                  :sex        1
+                  :weight     (ef/from "#inputWeight" (ef/read-form-input))
+                  :born-date  (ef/from "#dpYears" (ef/read-form-input))}
+         ;; :handler article-saved
+         ;; :error-handler error-handler
+         })
+  )
 
 (defn start []
   (ef/at "#header"
