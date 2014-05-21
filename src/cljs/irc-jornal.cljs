@@ -25,7 +25,8 @@
 
 (em/defsnippet register-form
   (str app-context "/html/register-form.html") "#register-form" []
-  "#register-btn" (ef/set-attr :onclick (str "irc_jornal.core.try_register()")))
+  "#register-btn" (ef/set-attr :onclick (str "irc_jornal.core.try_register()"))
+  "#cancel-btn" (ef/set-attr :onclick (str "irc_jornal.core.start()")))
 
 (em/defsnippet welcome (str app-context "/html/welcome.html") "#welcome" [])
 (em/defsnippet login (str app-context "/html/login.html") "#login" [])
@@ -53,7 +54,16 @@
   (mark-active "#login-li")
   (ef/at ".container" (ef/content (login))))
 
-;;(if (ef/from "#optionsRadios1" (ef/read-form-input)) 1 0)
+(defn error-handler [{:keys [status status-text response]}]
+  (ef/at "#error"
+         (ef/do->
+          (ef/add-class "alert alert-dismissable alert-danger")
+          (ef/content
+           (str
+            "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>"
+            response))))
+  ;; (.log js/console (str "Something bad happened: " status " " status-text))
+  )
 
 (defn ^:export try-register [id]
   (POST "/irc-journal/register/"
@@ -63,21 +73,22 @@
                   :last-name  (ef/from "#inputLastName" (ef/read-form-input))
                   :email      (ef/from "#inputEmail" (ef/read-form-input))
                   :about      (ef/from "#textArea" (ef/read-form-input))
-                  :sex        1
+                  :sex        (if (= (ef/from "#input-sex" (ef/read-form-input))
+                                     "М") "1" "0")
                   :weight     (ef/from "#inputWeight" (ef/read-form-input))
-                  :born-date  (ef/from "#dpYears" (ef/read-form-input))}
-         ;; :handler article-saved
-         ;; :error-handler error-handler
+                  :born-date  (ef/from "#input-born-date" (ef/read-form-input))}
+         :handler start ; user-registrated
+         :error-handler error-handler
          })
   )
 
-(defn start []
+(defn ^:export start []
   (ef/at "#header"
          (ef/do-> (ef/content (navbar-header))
                   ;; (ef/append (blog-sidebar))
                   ))
   (ef/at ".container"
-         (ef/append (welcome)))
+         (ef/content (welcome)))
   ;; (let [elem ($ "#dpYears")]
   ;;   (.datepicker elem))
   ;; (try-load-articles)

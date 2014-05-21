@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" href="/css/site.min.css"> -->
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/datepicker.css">    
+    <link rel="stylesheet" href="/css/datepicker.css">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
     <script>
-	 $(function(){
-	   $('#dpYears').datepicker();
+     $(function(){
+       $('#dpYears').datepicker();
      });
     </script>
   </head>
   <body>
 <div class="center-block container"  id="register-form" >
           <div style="margin-top:80px;"></div>
+<div id="error" class="">
+</div>
             <div class="well bs-component">
 <form class="form-horizontal">
   <fieldset >
@@ -60,47 +62,39 @@
         <span class="help-block">Можно рассказать немного о себе (по желанию).</span>
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Пол</label>
-      <div class="col-lg-10">
-        <div class="radio">
-          <label>
-            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-            М
-          </label>
-        </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-            Ж
-          </label>
-        </div>
-      </div>
-    </div>
+   <div class="form-group">
+     <label for="select" class="col-lg-2 control-label">Пол</label>
+     <div class="col-lg-2">
+       <select class="form-control" id="input-sex">
+         <option>М</option>
+         <option>Ж</option>
+       </select>
+     </div>
+   </div>
     <div class="form-group">
       <label for="inputWeight" class="col-lg-2 control-label">Вес</label>
-      <div class="col-lg-10">
+      <div class="col-lg-2">
         <input type="text" class="form-control" id="inputWeight" placeholder="Вес (кг.)">
       </div>
     </div>
     <div class="form-group">
         <label for="dpYears" class="col-lg-2 control-label">Дата рождения</label>
-	    <div class="input-append date col-lg-3" id="dpYears" data-date="01.01.1970" 
+        <div class="input-append date col-lg-3" id="dpYears" data-date="01.01.1970"
              data-date-format="dd.mm.yyyy" data-date-viewmode="years">
           <table>
             <tr>
-              <td><input class="form-control" type="text" value="01.01.1970" readonly></td>
+              <td><input id="input-born-date" class="form-control" type="text" value="01.01.1970" readonly></td>
               <td>&nbsp;</td>
               <td><span class="btn navbar-nav add-on glyphicon glyphicon-calendar"/></td>
             </tr>
-          </table>	                
-	    </div>          
+          </table>
+        </div>
     </div>
 
     <div class="form-group">
       <div class="col-lg-10 col-lg-offset-2">
-        <button class="btn btn-default">Отмена</button>
-        <button id="register-btn" type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        <button id="cancel-btn" class="btn btn-default">Отмена</button>
+        <button id="register-btn" class="btn btn-primary">Зарегистрироваться</button>
       </div>
     </div>
   </fieldset>
@@ -108,4 +102,4 @@
           </div>
       </div>
   </body>
-</html> 
+</html>

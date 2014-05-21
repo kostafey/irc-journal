@@ -45,7 +45,9 @@
        ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 \n"))
 
 (defn str-to-int [str]
-  (Integer/parseInt str))
+  (if (empty? str)
+    0
+    (Integer/parseInt str)))
 
 (defn new-date [date-str]
   (.parse (java.text.SimpleDateFormat. "dd.MM.yyyy")
