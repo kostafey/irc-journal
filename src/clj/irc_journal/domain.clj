@@ -97,6 +97,15 @@ e.g. (new-time \"1:10:12\")"
 (defn register [new-user]
   (insert user (values new-user)))
 
+(defn login [login password]
+  (let [found-user (first
+                    (select user
+                            (fields :id :password)
+                            (where {:login login})))]
+    (if (.equals (:password found-user) password)
+      (:id found-user)
+      nil)))
+
 (comment
   (def kostafey
     {:login "Kostafey"

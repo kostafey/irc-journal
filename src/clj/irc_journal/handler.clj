@@ -54,6 +54,12 @@
                   :weight     (d/str-to-int weight)
                   :born-date  (d/new-date born-date)})))))
 
+(defn login-fn [login password]
+  (let [user-id (d/login login password)]
+    (if (nil? user-id)
+      (response "Нет пользователя с такими логином/паролем." 400)
+      (response user-id 200))))
+
 (defroutes app-routes
   (context
    app-context []
@@ -62,6 +68,7 @@
                        email about sex weight born-date]
          (register login password first-name last-name
                    email about sex weight born-date))
+   (POST "/login/" [login password] (login-fn login password))
    (route/resources "/")
    (route/files "/" {:root "public/"})
    (route/not-found "Not Found")))
