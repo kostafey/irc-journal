@@ -32,10 +32,19 @@
        "  UNIQUE KEY id_UNIQUE (id)                            \n"
        ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8  \n"))
 
+(def geo-table
+  (str "CREATE TABLE IF NOT EXISTS geo (                      \n"
+       "  id int(11) NOT NULL AUTO_INCREMENT,                 \n"
+       "  place_name varchar(255) NOT NULL,                   \n"
+       "  coordinates point NOT NULL,                         \n"
+       "  PRIMARY KEY (`id`)                                  \n"
+       ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 \n"))
+
 (def journal-entry-table
   (str "CREATE TABLE journal_entries (                        \n"
        "  id int(11) NOT NULL AUTO_INCREMENT,                 \n"
        "  user_id int(11) NOT NULL,                           \n"
+       "  geo_id int(11) NOT NULL,                            \n"
        "  distance int(11) DEFAULT NULL,                      \n"
        "  time int(11) DEFAULT NULL,                          \n"
        "  speed int(11) DEFAULT NULL,                         \n"
@@ -71,10 +80,18 @@ e.g. (new-time \"1:10:12\")"
                      item))))
       result)))
 
+(defentity geo-entry
+  (table :geo)
+  (prepare #(rename-keys % {:place-name :place_name}))
+  (transform #(rename-keys % {:place_name :place-name})))
+
 (defentity journal-entry
   (table :journal_entries)
-  (prepare #(rename-keys % {:user-id :user_id}))
-  (transform #(rename-keys % {:user_id :user-id})))
+  (has-many geo-entry {:fk :geo_id})
+  (prepare #(rename-keys % {:user-id :user_id
+                            :gei-id :gei_id}))
+  (transform #(rename-keys % {:user_id :user-id
+                              :gei_id :gei-id})))
 
 (defentity user
   (table :users)
@@ -135,6 +152,7 @@ e.g. (new-time \"1:10:12\")"
                  (with journal-entry)))
   ;(exec-raw user-table)
   ;(exec-raw journal-entry-table)
+  ;(exec-raw geo-table)
   ;(insert user (values kostafey))
   ;(insert journal-entry (values first-journal-entity))
   )
