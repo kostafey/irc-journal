@@ -25,8 +25,11 @@
                 :onclick
                 (str "irc_jornal.navbar.show_login()"))
   "#add-note" (ef/set-attr
-                :onclick
-                (str "irc_jornal.navbar.show_note_form()")))
+               :onclick
+               (str "irc_jornal.navbar.show_note_form()"))
+  "#notes-list-menu-item" (ef/set-attr
+                           :onclick
+                           (str "irc_jornal.notes_list.show_list()")))
 
 (defn ^:export show-register []
   (main/mark-active "#register-li")

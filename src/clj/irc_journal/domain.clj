@@ -41,11 +41,13 @@
        "  PRIMARY KEY (`id`)                                  \n"
        ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 \n"))
 
-(def journal-entry-table
-  (str "CREATE TABLE journal_entries (                        \n"
+(def note-table
+  (str "CREATE TABLE notes (                                  \n"
        "  id int(11) NOT NULL AUTO_INCREMENT,                 \n"
        "  user_id int(11) NOT NULL,                           \n"
        "  geo_id int(11) NOT NULL,                            \n"
+       "  title varchar(255) DEFAULT NULL,                    \n"
+       "  event_date datetime DEFAULT NULL,                   \n"
        "  distance int(11) DEFAULT NULL,                      \n"
        "  time int(11) DEFAULT NULL,                          \n"
        "  speed int(11) DEFAULT NULL,                         \n"
@@ -59,17 +61,19 @@
   (prepare #(rename-keys % {:place-name :place_name}))
   (transform #(rename-keys % {:place_name :place-name})))
 
-(defentity journal-entry
-  (table :journal_entries)
+(defentity note-entry
+  (table :notes)
   (has-many geo-entry {:fk :geo_id})
   (prepare #(rename-keys % {:user-id :user_id
-                            :gei-id :gei_id}))
+                            :gei-id :gei_id
+                            :event-date :event_date}))
   (transform #(rename-keys % {:user_id :user-id
-                              :gei_id :gei-id})))
+                              :gei_id :gei-id
+                              :event_date :event-date})))
 
 (defentity user
   (table :users)
-  (has-many journal-entry {:fk :user_id})
+  (has-many note-entry {:fk :user_id})
   (prepare #(rename-keys % {:is-admin           :is_admin
                             :is-active          :is_active
                             :first-name         :first_name
@@ -98,7 +102,7 @@
       nil)))
 
 (defn update-note [note]
-  (insert journal-entry (values note)))
+  (insert note-entry (values note)))
 
 (comment
   (def kostafey
@@ -128,7 +132,7 @@
   (first (select user
                  (with journal-entry)))
   ;(exec-raw user-table)
-  ;(exec-raw journal-entry-table)
+  ;(exec-raw note-table)
   ;(exec-raw geo-table)
   ;(insert user (values kostafey))
   ;(insert journal-entry (values first-journal-entity))

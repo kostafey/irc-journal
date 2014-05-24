@@ -10,8 +10,9 @@
   (doseq [item ["#home-li" "#register-li" "#login-li" "#add-note-li"]]
     (ef/at item
            (ef/remove-class "active")))
-  (ef/at active-item
-         (ef/add-class "active")))
+  (if (not (nil? active-item))
+    (ef/at active-item
+           (ef/add-class "active"))))
 
 (defn ^:export show-welcome []
   (mark-active "#home-li")
