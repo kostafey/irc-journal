@@ -1,6 +1,7 @@
 (ns irc-journal.handler
   (:use compojure.core
-        ring.middleware.edn)
+        ring.middleware.edn
+        [irc-journal.lib])
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [clojure.java.io :as io]
@@ -15,18 +16,6 @@
   {:status (or status 200)
    :headers {"Content-Type" "application/edn; charset=utf-8"}
    :body (pr-str data)})
-
-(defn werify [field w-func error msg]
-  (if (w-func field) (.append error (str msg "<br>"))))
-
-(defn has-errors? [^StringBuffer error]
-  (not (empty? (.toString error))))
-
-(defn trim [val]
-  (if (and (not (nil? val))
-           (isa? (type val) java.lang.String))
-    (.trim val)
-    val))
 
 (defn register [login password first-name last-name
                 email about sex weight born-date]
@@ -51,14 +40,21 @@
                   :email      email
                   :about      about
                   :sex        (.equals "1" sex)
-                  :weight     (d/str-to-int weight)
-                  :born-date  (d/new-date born-date)})))))
+                  :weight     (str-to-int weight)
+                  :born-date  (new-date born-date)})))))
 
 (defn login-fn [login password]
   (let [user-id (d/login login password)]
     (if (nil? user-id)
       (response "Нет пользователя с такими логином/паролем." 400)
       (response user-id 200))))
+
+(defn update-note [distance time about]
+  (let [note {:user-id  1
+              :distance (str-to-int distance)
+              :time     (new-time time)
+              :about    about}]
+    (response (d/update-note note))))
 
 (defroutes app-routes
   (context
@@ -69,6 +65,8 @@
          (register login password first-name last-name
                    email about sex weight born-date))
    (POST "/login/" [login password] (login-fn login password))
+   (POST "/update-note/" [distance time about]
+         (update-note distance time about))
    (route/resources "/")
    (route/files "/" {:root "public/"})
    (route/not-found "Not Found")))

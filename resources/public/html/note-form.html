@@ -14,6 +14,7 @@
         <form class="form-horizontal">
           <fieldset>
             <legend>Новая заметка</legend>
+           <input id="note-id" type="hidden"/>
             <div class="form-group">
               <label for="input-distance" class="col-lg-2 control-label">Расстояние</label>
               <div class="col-lg-4">
@@ -26,13 +27,13 @@
             <div class="form-group">
               <label for="input-time" class="col-lg-2 control-label">Время</label>
               <div class="col-lg-4">
-                <input type="password" class="form-control" id="inputPassword" placeholder="HH:MM:SS"/>
+                <input type="text" class="form-control" id="input-time" placeholder="HH:MM:SS"/>
               </div>
             </div>
             <div class="form-group">
                 <label for="textArea" class="col-lg-2 control-label">Описание</label>
                 <div class="col-lg-10">
-                    <textarea class="form-control" rows="3" id="textArea"></textarea>
+                    <textarea class="form-control" rows="3" id="input-about"></textarea>
                 </div>
             </div>
             <div class="form-group">

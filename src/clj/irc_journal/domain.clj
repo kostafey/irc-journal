@@ -1,7 +1,8 @@
 (ns irc-journal.domain
   (:use [korma.db]
         [korma.core]
-        [clojure.set :only (rename-keys)]))
+        [clojure.set :only (rename-keys)]
+        [irc-journal.lib]))
 
 (defdb irc-journal-db (mysql {:db "irc_journal_db?characterEncoding=utf8"
                               :user "root"
@@ -53,33 +54,6 @@
        "  UNIQUE KEY id_UNIQUE (id)                           \n"
        ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 \n"))
 
-(defn str-to-int [str]
-  (if (empty? str)
-    0
-    (Integer/parseInt str)))
-
-(defn new-date [date-str]
-  (.parse (java.text.SimpleDateFormat. "dd.MM.yyyy")
-          date-str))
-
-(defn new-time [time-str]
-  "Time in seconds.
-e.g. (new-time \"1:10:12\")"
-  (loop [src-seq (map str-to-int (reverse (.split time-str ":")))
-         pos 0
-         result 0]
-    (if (seq src-seq)
-      (let [item (first src-seq)]
-        (recur (next src-seq)
-               (inc pos)
-               (+ result
-                  (* (get {0 1
-                           1 60
-                           2 3600
-                           3 (* 24 3600)} pos)
-                     item))))
-      result)))
-
 (defentity geo-entry
   (table :geo)
   (prepare #(rename-keys % {:place-name :place_name}))
@@ -122,6 +96,9 @@ e.g. (new-time \"1:10:12\")"
     (if (.equals (:password found-user) password)
       (:id found-user)
       nil)))
+
+(defn update-note [note]
+  (insert journal-entry (values note)))
 
 (comment
   (def kostafey
