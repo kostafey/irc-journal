@@ -7,7 +7,7 @@
 (em/defsnippet welcome (str app-context "/html/welcome.html") "#welcome" [])
 
 (defn mark-active [active-item]
-  (doseq [item ["#home-li" "#register-li" "#login-li"]]
+  (doseq [item ["#home-li" "#register-li" "#login-li" "#add-note-li"]]
     (ef/at item
            (ef/remove-class "active")))
   (ef/at active-item

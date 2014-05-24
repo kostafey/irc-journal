@@ -4,8 +4,6 @@
             [jayq.core :as jq]
             [irc-jornal.log-in :as log-in]
             [irc-jornal.main :as main])
-  (:use [bootstrap.datepicker :only [datepicker]]
-        [jayq.core :only [$ css html]])
   (:require-macros [enfocus.macros :as em]))
 
 (em/defsnippet register-form
