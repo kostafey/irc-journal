@@ -49,12 +49,16 @@
       (response "Нет пользователя с такими логином/паролем." 400)
       (response user-id 200))))
 
-(defn update-note [distance time about]
+(defn update-note [distance time about title]
   (let [note {:user-id  1
               :distance (str-to-int distance)
               :time     (new-time time)
-              :about    about}]
+              :about    about
+              :title    title}]
     (response (d/update-note note))))
+
+(defn notes-list []
+  (response (d/notes-list)))
 
 (defroutes app-routes
   (context
@@ -65,8 +69,9 @@
          (register login password first-name last-name
                    email about sex weight born-date))
    (POST "/login/" [login password] (login-fn login password))
-   (POST "/update-note/" [distance time about]
-         (update-note distance time about))
+   (POST "/update-note/" [distance time about title]
+         (update-note distance time about title))
+   (GET "/note/list" [] (notes-list))
    (route/resources "/")
    (route/files "/" {:root "public/"})
    (route/not-found "Not Found")))

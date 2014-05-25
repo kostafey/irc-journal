@@ -45,7 +45,7 @@
   (str "CREATE TABLE notes (                                  \n"
        "  id int(11) NOT NULL AUTO_INCREMENT,                 \n"
        "  user_id int(11) NOT NULL,                           \n"
-       "  geo_id int(11) NOT NULL,                            \n"
+       "  geo_id int(11) DEFAULT NULL,                        \n"
        "  title varchar(255) DEFAULT NULL,                    \n"
        "  event_date datetime DEFAULT NULL,                   \n"
        "  distance int(11) DEFAULT NULL,                      \n"
@@ -104,6 +104,9 @@
 (defn update-note [note]
   (insert note-entry (values note)))
 
+(defn notes-list []
+  (select note-entry))
+
 (comment
   (def kostafey
     {:login "Kostafey"
@@ -127,7 +130,7 @@
      :about "Восстановительная пробежка"})
 
   (select user)
-  (select journal-entry)
+  (select note-entry)
 
   (first (select user
                  (with journal-entry)))

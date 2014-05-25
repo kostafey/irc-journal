@@ -15,13 +15,20 @@
   "#note-distance" (ef/content note-distance)
   "#note-time" (ef/content note-time))
 
-(defn ^:export show-list []
+(defn ^:export try-load-notes []
+  (GET (str main/app-context "/note/list")
+       {:handler show-list}))
+
+(defn wrap-note-names [item]
+  (into {}
+        (map
+         (fn [[k v]] [(keyword (str "note-" (name k))) (str v)])
+         (seq item))))
+
+(defn show-list [data]
   (main/mark-active nil)
   (ef/at ".container"
          (ef/content (notes-list)))
   (ef/at "#notes-items-list"
-         (ef/append (note-item
-                     {:note-title "Подготовка к марафону"
-                      :note-date "23.05.2014"
-                      :note-distance "3"
-                      :note-time "15:00"}))))
+         (ef/content
+          (map #(note-item (wrap-note-names %)) data))))

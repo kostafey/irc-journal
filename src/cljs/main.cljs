@@ -14,6 +14,9 @@
     (ef/at active-item
            (ef/add-class "active"))))
 
+(defn read-form [dom-selector]
+  (ef/from dom-selector (ef/read-form-input)))
+
 (defn ^:export show-welcome []
   (mark-active "#home-li")
   (ef/at ".container"

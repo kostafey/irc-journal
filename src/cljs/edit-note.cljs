@@ -11,9 +11,10 @@
 
 (defn ^:export try-update-note [id]
   (POST (str main/app-context "/update-note/")
-        {:params {:distance (ef/from "#input-distance" (ef/read-form-input))
-                  :time     (ef/from "#input-time" (ef/read-form-input))
-                  :about    (ef/from "#input-about" (ef/read-form-input))}
+        {:params {:distance (main/read-form "#input-distance")
+                  :time     (main/read-form "#input-time")
+                  :about    (main/read-form "#input-about")
+                  :title    (main/read-form "#input-title")}
          :handler main/start ; user-registrated
          :error-handler error-handler}))
 
