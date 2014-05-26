@@ -60,6 +60,9 @@
 (defn notes-list []
   (response (d/notes-list)))
 
+(defn get-note [id]
+  (response (d/get-note id)))
+
 (defroutes app-routes
   (context
    app-context []
@@ -72,6 +75,7 @@
    (POST "/update-note/" [distance time about title]
          (update-note distance time about title))
    (GET "/note/list" [] (notes-list))
+   (GET "/note/load/" [id] (get-note id))
    (route/resources "/")
    (route/files "/" {:root "public/"})
    (route/not-found "Not Found")))

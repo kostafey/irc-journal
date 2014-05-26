@@ -26,7 +26,7 @@
                 (str "irc_jornal.navbar.show_login()"))
   "#add-note" (ef/set-attr
                :onclick
-               (str "irc_jornal.navbar.show_note_form()"))
+               (str "irc_jornal.edit_note.show_note_form()"))
   "#notes-list-menu-item" (ef/set-attr
                            :onclick
                            (str "irc_jornal.notes_list.try_load_notes()")))
@@ -41,8 +41,4 @@
 (defn ^:export show-login []
   (main/mark-active "#login-li")
   (ef/at ".container" (ef/content (log-in/login))))
-
-(defn ^:export show-note-form []
-  (main/mark-active "#add-note-li")
-  (ef/at ".container" (ef/content (edit-note/note-form))))
 

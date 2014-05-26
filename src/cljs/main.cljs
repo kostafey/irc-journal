@@ -24,3 +24,9 @@
 
 (defn ^:export home []
   (show-welcome))
+
+(defn wrap-data [item]
+  (into {}
+        (map
+         (fn [[k v]] [k (str v)])
+         (seq item))))

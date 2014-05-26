@@ -107,6 +107,10 @@
 (defn notes-list []
   (select note-entry))
 
+(defn get-note [id]
+  (first (select note-entry
+                 (where {:id id}))))
+
 (comment
   (def kostafey
     {:login "Kostafey"

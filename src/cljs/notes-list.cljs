@@ -9,11 +9,14 @@
 
 (em/defsnippet note-item
   (str main/app-context "/html/notes-list.html") "#note-item"
-  [{:keys [note-title note-date note-distance note-time]}]
+  [{:keys [note-title note-date note-distance note-time note-id]}]
   "#note-title" (ef/content note-title)
   "#note-date" (ef/content note-date)
   "#note-distance" (ef/content note-distance)
-  "#note-time" (ef/content note-time))
+  "#note-time" (ef/content note-time)
+  "#note-item" (ef/set-attr
+                :onclick
+                (str "irc_jornal.edit_note.try_load_note(" note-id ")")))
 
 (defn ^:export try-load-notes []
   (GET (str main/app-context "/note/list")
