@@ -1,0 +1,6 @@
++.
++/src
+-/.git
+-/target
+-*.jar
+-*.class

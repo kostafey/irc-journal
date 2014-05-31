@@ -9,7 +9,8 @@
                  [cljs-ajax "0.2.3"]
                  [korma "0.3.1"]
                  [mysql-java "5.1.21"]
-                 [fogus/ring-edn "0.2.0"]]
+                 [fogus/ring-edn "0.2.0"]
+                 [com.cemerick/piggieback "0.1.3"]]
   :plugins [[lein-ring "0.8.10"]]
   :ring {:handler irc-journal.handler/app}
   :profiles {:dev [{:dependencies [[javax.servlet/servlet-api "2.5"]

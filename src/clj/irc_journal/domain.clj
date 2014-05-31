@@ -17,6 +17,7 @@
   (str "CREATE TABLE users (                                   \n"
        "  id int(11) NOT NULL AUTO_INCREMENT,                  \n"
        "  login varchar(45),                                   \n"
+       "  img_path varchar(45),                                \n"
        "  is_admin bit(1) DEFAULT NULL,                        \n"
        "  password varchar(45) NOT NULL,                       \n"
        "  is_active bit(1) DEFAULT NULL,                       \n"
@@ -74,14 +75,16 @@
 (defentity user
   (table :users)
   (has-many note-entry {:fk :user_id})
-  (prepare #(rename-keys % {:is-admin           :is_admin
+  (prepare #(rename-keys % {:img-path           :img_path
+                            :is-admin           :is_admin
                             :is-active          :is_active
                             :first-name         :first_name
                             :last-name          :last_name
                             :register-date      :register_date
                             :last-activity-date :last_activity_date
                             :born-date          :born_date}))
-  (transform #(rename-keys % {:is_admin            :is-admin
+  (transform #(rename-keys % {:img_path            :img-path
+                              :is_admin            :is-admin
                               :is_active           :is-active
                               :first_name          :first-name
                               :last_name           :last-name

@@ -4,12 +4,19 @@
             [jayq.core :as jq]
             [irc-jornal.log-in :as log-in]
             [irc-jornal.main :as main])
-  (:require-macros [enfocus.macros :as em]))
+  (:require-macros [enfocus.macros :as em])
+  (:use [jayq.core :only [$]]))
+
+(def ^:export file-loader ($ "<input id=\"file-loader\" type=\"file\"/>"))
 
 (em/defsnippet register-form
   (str main/app-context "/html/register-form.html") "#register-form" []
   "#register-btn" (ef/set-attr :onclick (str "irc_jornal.register.try_register()"))
-  "#cancel-btn" (ef/set-attr :onclick (str "irc_jornal.main.show_welcome()")))
+  "#cancel-btn" (ef/set-attr :onclick (str "irc_jornal.main.show_welcome()"))
+  "#input-img" (ef/set-attr :onclick (str "irc_jornal.register.load_file()")))
+
+(defn ^:export load-file []
+  (.click file-loader))
 
 (defn error-handler [{:keys [status status-text response]}]
   (ef/at "#error"
@@ -23,6 +30,7 @@
   )
 
 (defn ^:export try-register [id]
+  ;; (js/alert (.-name file-loader))
   (POST (str main/app-context "/register/")
         {:params {:login      (ef/from "#inputLogin" (ef/read-form-input))
                   :password   (ef/from "#inputPassword" (ef/read-form-input))
@@ -35,4 +43,5 @@
                   :weight     (ef/from "#inputWeight" (ef/read-form-input))
                   :born-date  (ef/from "#input-born-date" (ef/read-form-input))}
          :handler start ; user-registrated
-         :error-handler error-handler}))
+         :error-handler error-handler})
+  )

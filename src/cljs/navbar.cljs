@@ -36,7 +36,9 @@
   (ef/at ".container"
          (ef/content (register/register-form)))
   (let [elem ($ "#dpYears")]
-    (.datepicker elem)))
+    (.datepicker elem))
+  ;; (.run js/Holder)
+  )
 
 (defn ^:export show-login []
   (main/mark-active "#login-li")

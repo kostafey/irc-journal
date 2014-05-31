@@ -10,6 +10,7 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
+    <script src="/irc-journal/holder/holder.js"></script>
     <script>
      $(function(){
        $('#dpYears').datepicker();
@@ -25,6 +26,14 @@
 <form class="form-horizontal">
   <fieldset >
     <legend>Регистрация</legend>
+    <div class="form-group">
+      <label for="input-img" class="col-lg-2 control-label">Фото</label>
+      <div class="col-lg-2">
+        <a id="input-img" href="#" class="thumbnail" type="file">
+          <img src="/irc-journal/img/user-icon.png"/>
+        </a>
+      </div>
+    </div>
     <div class="form-group">
       <label for="inputLogin" class="col-lg-2 control-label">Логин</label>
       <div class="col-lg-10">
