@@ -3,13 +3,33 @@
   <head lang="ru">
     <meta charset="utf-8"/>
     <script src="/irc-journal/holder/holder.js"></script>
+   <script type="text/javascript" src="/irc-journal/js/jquery-1.10.1.min.js"></script>
     <link rel="stylesheet" href="/irc-journal/css/custom.css">
+      <script>
+       function readURL(input) {
+
+         if (input.files && input.files[0]) {
+           var reader = new FileReader();
+
+           reader.onload = function (e) {
+             $('#blah').attr('src', e.target.result);
+           }
+
+           reader.readAsDataURL(input.files[0]);
+         }
+       }
+
+       $(function(){
+         $("#imgInp").change(function(){
+           readURL(this);
+         });
+       });
+      </script>
   </head>
   <body>
-    <a href="" type="file">
-      <img data-src="holder.js/128x128"/>
-    </a>
+      <input type='file' id="imgInp" style="display: none;"/>
+      <a href="#" onclick="imgInp.click();">
+          <img id="blah" data-src="holder.js/128x128"/>
+      </a>
   </body>
 </html>
-
-

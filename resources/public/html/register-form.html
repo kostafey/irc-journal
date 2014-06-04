@@ -29,8 +29,11 @@
     <div class="form-group">
       <label for="input-img" class="col-lg-2 control-label">Фото</label>
       <div class="col-lg-2">
-        <a id="input-img" href="#" class="thumbnail" type="file">
-          <img src="/irc-journal/img/user-icon.png"/>
+        <a id="input-img" href="#" class="thumbnail" onclick="file_loader.click();">
+          <input id="file_loader" type="file" style="display: none;"></input>
+          <img id="essence_img"
+               src="/irc-journal/img/user-icon.png"
+               width="164" height="164"/>
         </a>
       </div>
     </div>

@@ -7,16 +7,21 @@
   (:require-macros [enfocus.macros :as em])
   (:use [jayq.core :only [$]]))
 
-(def ^:export file-loader ($ "<input id=\"file-loader\" type=\"file\"/>"))
-
 (em/defsnippet register-form
   (str main/app-context "/html/register-form.html") "#register-form" []
   "#register-btn" (ef/set-attr :onclick (str "irc_jornal.register.try_register()"))
   "#cancel-btn" (ef/set-attr :onclick (str "irc_jornal.main.show_welcome()"))
-  "#input-img" (ef/set-attr :onclick (str "irc_jornal.register.load_file()")))
+  "#file_loader" (ef/set-attr :onchange "irc_jornal.register.read_url(this);"))
 
-(defn ^:export load-file []
-  (.click file-loader))
+(defn ^:export read-url [input]
+  (let [file (aget (.-files input) 0)]
+    (if (and (.-files input)
+             file)
+      (let [reader (js/FileReader.)]
+        (set! (.-onload reader)
+              (fn [e] (ef/at "#essence_img"
+                             (ef/set-attr :src (.-result (.-target e))))))
+        (.readAsDataURL reader file)))))
 
 (defn error-handler [{:keys [status status-text response]}]
   (ef/at "#error"
@@ -42,6 +47,6 @@
                                      "М") "1" "0")
                   :weight     (ef/from "#inputWeight" (ef/read-form-input))
                   :born-date  (ef/from "#input-born-date" (ef/read-form-input))}
-         :handler start ; user-registrated
+         :handler main/home ; user-registrated
          :error-handler error-handler})
   )
